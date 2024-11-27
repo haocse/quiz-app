@@ -120,10 +120,6 @@ router.patch('/:id/toggle-status', async (req, res) => {
             return res.status(404).json({ error: 'Quiz not found' });
         }
 
-        if (quiz.creator.id !== req.session.userId) {
-            return res.status(403).json({ error: 'Unauthorized' });
-        }
-
         quiz.isActive = !quiz.isActive;
         await quizRepository.save(quiz);
 
@@ -144,10 +140,6 @@ router.get('/:id/edit', async (req, res) => {
             return res.status(404).json({ error: 'Quiz not found' });
         }
 
-        if (quiz.creator.id !== req.session.userId) {
-            return res.status(403).json({ error: 'Unauthorized' });
-        }
-
         res.json(quiz);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch quiz' });
@@ -166,10 +158,6 @@ router.put('/:id', async (req, res) => {
 
         if (!quiz) {
             return res.status(404).json({ error: 'Quiz not found' });
-        }
-
-        if (quiz.creator.id !== req.session.userId) {
-            return res.status(403).json({ error: 'Unauthorized' });
         }
 
         quiz.title = title;

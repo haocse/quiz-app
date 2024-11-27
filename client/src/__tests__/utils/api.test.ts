@@ -33,7 +33,7 @@ describe('API Utils', () => {
           body: JSON.stringify({
             username: 'testuser',
             password: 'password123',
-            rememberMe: false,
+            rememberMe: false
           }),
         })
       );

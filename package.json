@@ -3,17 +3,20 @@
   "private": true,
   "workspaces": [
     "client",
-    "auth"
+    "auth",
+    "quiz"
   ],
   "scripts": {
     "dev:client": "cd client && npm run dev",
-    "dev:auth": "cd auth && npm run dev",
-    "dev": "concurrently \"npm run dev:auth\" \"npm run dev:client\"",
+    "dev:auth": "cd auth && npm run dev", 
+    "dev:quiz": "cd quiz && npm run dev",
+    "dev": "concurrently \"npm run dev:auth\" \"npm run dev:client\" \"npm run dev:quiz\"",
     "test:client": "cd client && npm test",
     "test:auth": "cd auth && npm test",
-    "test": "concurrently \"npm run test:auth\" \"npm run test:client\"",
-    "dev:redis": "docker run --name redis-dev -p 6379:6379 -d redis:alpine",
-    "dev:redis:stop": "docker stop redis-dev && docker rm redis-dev"
+    "test:quiz": "cd quiz && npm test", 
+    "test": "concurrently \"npm run test:auth\" \"npm run test:client\" \"npm run test:quiz\"",
+    "dev:infra:up": "docker compose -f gateway/docker-compose.yml up -d && docker run --name redis-dev -p 6379:6379 -d redis:alpine",
+    "dev:infra:down": "docker compose -f gateway/docker-compose.yml down && docker stop redis-dev && docker rm redis-dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

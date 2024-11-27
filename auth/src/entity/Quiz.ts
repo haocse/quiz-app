@@ -26,9 +26,6 @@ export class Quiz {
     @CreateDateColumn()
     createdAt!: Date;
 
-    @ManyToOne(() => User, user => user.createdQuizzes)
-    creator!: User;
-
     @OneToMany(() => Participation, participation => participation.quiz)
     participations!: Participation[];
 

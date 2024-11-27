@@ -8,21 +8,29 @@ import { CreateQuiz } from './components/CreateQuiz';
 import { QuizRoom } from './components/QuizRoom';
 import { QuizList } from './components/QuizList';
 import { api } from './utils/api';
+import type { User } from './types';  
+
+interface Quiz {
+  id: number;
+  title: string;
+  description: string;
+  questions: {
+    question: string;
+    options: string[];
+    correctAnswer: number;
+  }[];
+}
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
   const [quizCode, setQuizCode] = useState<string>('');
   const [joinedQuizCode, setJoinedQuizCode] = useState<string>('');
-  const [quizToEdit, setQuizToEdit] = useState<{
-    id: number;
-    title: string;
-    description: string;
-    questions: {
-      question: string;
-      options: string[];
-      correctAnswer: number;
-    }[];
-  } | null>(null);
+  const [quizToEdit, setQuizToEdit] = useState<Quiz | null>(null);
+
+  // Type guard for checking admin status
+  const isAdmin = (user: User | null): user is User & { isAdmin: true } => {
+    return Boolean(user?.isAdmin);
+  };
 
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -31,7 +39,7 @@ const AppContent: React.FC = () => {
   }, [isAuthenticated]);
 
   const handleEditQuiz = useCallback(async (quizId: number) => {
-    if (!user?.isAdmin) return;
+    if (!isAdmin(user)) return;
     try {
       const quiz = await api.getQuizForEdit(quizId);
       setQuizToEdit(quiz);
@@ -42,18 +50,13 @@ const AppContent: React.FC = () => {
 
   const handleJoinQuiz = useCallback(async () => {
     try {
-      // First verify the quiz exists and is active
       const response = await fetch(`/api/quiz/${quizCode}`);
-      console.log(response)
       if (!response.ok) {
         throw new Error('Quiz not found or inactive');
       }
-
-      // Set the joined quiz code to display the QuizRoom
       setJoinedQuizCode(quizCode);
     } catch (error) {
       console.error('Failed to join quiz:', error);
-      // You might want to add toast notification here
     }
   }, [quizCode]);
 
@@ -63,7 +66,7 @@ const AppContent: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {isAuthenticated ? (
           <>
-            {user?.isAdmin && (
+            {isAdmin(user) && (
               <div className="mb-8">
                 <CreateQuiz 
                   quizToEdit={quizToEdit}
@@ -75,28 +78,37 @@ const AppContent: React.FC = () => {
               </div>
             )}
             
-            <div className="mb-8">
-              <QuizList onEditQuiz={handleEditQuiz} />
-            </div>
-            
-            {!user?.isAdmin && (
-              <div className="flex gap-4 mb-8">
-                <input
-                  type="text"
-                  placeholder="Enter Quiz Code"
-                  value={quizCode}
-                  onChange={(e) => setQuizCode(e.target.value.toUpperCase())}
-                  className="p-2 border rounded"
-                />
-                <button
-                  onClick={handleJoinQuiz}
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  Join Quiz
-                </button>
-              </div>
+            {!joinedQuizCode && (
+              <>
+                <div className="mb-8">
+                  <QuizList onEditQuiz={handleEditQuiz} />
+                </div>
+                
+                {!isAdmin(user) && (
+                  <div className="flex gap-4 mb-8">
+                    <input
+                      type="text"
+                      placeholder="Enter Quiz Code"
+                      value={quizCode}
+                      onChange={(e) => setQuizCode(e.target.value.toUpperCase())}
+                      className="p-2 border rounded"
+                    />
+                    <button
+                      onClick={handleJoinQuiz}
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Join Quiz
+                    </button>
+                  </div>
+                )}
+              </>
             )}
-            {joinedQuizCode && <QuizRoom quizCode={joinedQuizCode} />}
+            {joinedQuizCode && (
+              <QuizRoom 
+                quizCode={joinedQuizCode} 
+                onExit={() => setJoinedQuizCode('')}
+              />
+            )}
           </>
         ) : (
           <div className="text-center py-8">

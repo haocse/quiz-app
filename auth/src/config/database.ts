@@ -63,6 +63,21 @@ const createInitialUsers = async () => {
                     question: "What is JavaScript?",
                     options: ["A programming language", "A markup language", "A database", "A framework"],
                     correctAnswer: 0
+                },
+                {
+                    question: "Which of these is not a JavaScript data type?",
+                    options: ["String", "Boolean", "Integer", "Undefined"],
+                    correctAnswer: 2
+                },
+                {
+                    question: "What does DOM stand for?",
+                    options: ["Document Object Model", "Data Object Model", "Document Oriented Model", "Data Oriented Model"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Which operator is used for strict equality comparison?",
+                    options: ["==", "===", "=", "!="],
+                    correctAnswer: 1
                 }
             ];
             quiz1.isActive = true;
@@ -79,6 +94,21 @@ const createInitialUsers = async () => {
                     question: "What is a TypeScript interface?",
                     options: ["A class", "A contract for object structure", "A function", "A variable"],
                     correctAnswer: 1
+                },
+                {
+                    question: "What is the 'any' type in TypeScript?",
+                    options: ["A type that can hold any value", "A number type", "A string type", "A boolean type"],
+                    correctAnswer: 0
+                },
+                {
+                    question: "Which decorator is used to mark a class as injectable in TypeScript?",
+                    options: ["@Component", "@Injectable", "@Service", "@Module"],
+                    correctAnswer: 1
+                },
+                {
+                    question: "What is a generic in TypeScript?",
+                    options: ["A type of class", "A reusable component", "A placeholder for a type", "A function type"],
+                    correctAnswer: 2
                 }
             ];
             quiz2.isActive = true;

@@ -112,8 +112,7 @@ router.patch('/:id/toggle-status', async (req, res) => {
     try {
         const quizRepository = AppDataSource.getRepository(Quiz);
         const quiz = await quizRepository.findOne({
-            where: { id: parseInt(req.params.id) },
-            relations: ['creator']
+            where: { id: parseInt(req.params.id) }
         });
 
         if (!quiz) {
@@ -125,6 +124,7 @@ router.patch('/:id/toggle-status', async (req, res) => {
 
         res.json({ message: 'Quiz status updated', isActive: quiz.isActive });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: 'Failed to update quiz status' });
     }
 });
@@ -132,8 +132,7 @@ router.patch('/:id/toggle-status', async (req, res) => {
 router.get('/:id/edit', async (req, res) => {
     try {
         const quiz = await AppDataSource.getRepository(Quiz).findOne({
-            where: { id: parseInt(req.params.id) },
-            relations: ['creator']
+            where: { id: parseInt(req.params.id) }
         });
 
         if (!quiz) {

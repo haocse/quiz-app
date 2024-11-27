@@ -126,7 +126,7 @@ export const QuizRoom: React.FC<{ quizCode: string; onExit: () => void }> = ({ q
                     currentQuestion: prev.currentQuestion + 1,
                     hasSubmitted: false
                 }));
-            }, 3000);
+            }, 1000);
 
             return () => clearTimeout(timer);
         }

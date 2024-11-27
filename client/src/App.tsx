@@ -122,6 +122,17 @@ const AppContent: React.FC = () => {
                 Password: Admin@123<br/>
                 Email: admin@example.com
               </p>
+              <hr className="my-2 border-blue-200"/>
+              <p className="text-sm text-blue-800">
+                Test user accounts:<br/>
+                Username: user1<br/>
+                Password: User1@123<br/>
+                Email: user1@example.com
+                <br/><br/>
+                Username: user2<br/>
+                Password: User2@123<br/>
+                Email: user2@example.com
+              </p>
             </div>
             <button
               onClick={() => (document.getElementById('auth-modal') as HTMLDialogElement)?.showModal()}

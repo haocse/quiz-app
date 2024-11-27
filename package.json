@@ -1,0 +1,24 @@
+{
+  "name": "quiz-app",
+  "private": true,
+  "workspaces": [
+    "client",
+    "auth"
+  ],
+  "scripts": {
+    "dev:client": "cd client && npm run dev",
+    "dev:auth": "cd auth && npm run dev",
+    "dev": "concurrently \"npm run dev:auth\" \"npm run dev:client\"",
+    "test:client": "cd client && npm test",
+    "test:auth": "cd auth && npm test",
+    "test": "concurrently \"npm run test:auth\" \"npm run test:client\"",
+    "dev:redis": "docker run --name redis-dev -p 6379:6379 -d redis:alpine",
+    "dev:redis:stop": "docker stop redis-dev && docker rm redis-dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}

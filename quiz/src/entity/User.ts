@@ -20,9 +20,9 @@ export class User {
     @IsEmail()
     email!: string;
 
-    @OneToMany(() => Quiz, quiz => quiz.creator)
-    createdQuizzes!: Quiz[];
-
     @OneToMany(() => Participation, participation => participation.user)
     participations!: Participation[];
+
+    @Column({ default: false })
+    isAdmin!: boolean;
 }

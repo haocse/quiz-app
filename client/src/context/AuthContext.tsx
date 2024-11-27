@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (username: string, email: string, password: string): Promise<boolean> => {
     try {
-      await api.register({ username, email, password });
+      await api.register({ username, email, password, isAdmin: false });
       toast.success('Registration successful!');
       return true;
     } catch (error) {

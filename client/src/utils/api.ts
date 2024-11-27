@@ -9,7 +9,7 @@ interface LoginData {
     username: string;
     email: string;
     password: string;
-    isAdmin: boolean;
+    isAdmin?: boolean;
   }
 
   interface CreateQuizData {

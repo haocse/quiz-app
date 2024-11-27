@@ -22,9 +22,6 @@ export class User {
 
     @Column({ default: false })
     isAdmin!: boolean;
-    
-    @OneToMany(() => Quiz, quiz => quiz.creator)
-    createdQuizzes!: Quiz[];
 
     @OneToMany(() => Participation, participation => participation.user)
     participations!: Participation[];

@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 import { Calendar, Users, Power, Copy, Edit } from 'lucide-react';
+import type { User } from '../types';
 
 interface QuizListItem {
     id: number;
@@ -14,6 +15,7 @@ interface QuizListItem {
     creatorName: string;
     participantCount: number;
 }
+
 interface QuizListProps {
     onEditQuiz?: (quizId: number) => void;
 }
@@ -22,6 +24,11 @@ export const QuizList: React.FC<QuizListProps> = ({ onEditQuiz }) => {
     const [quizzes, setQuizzes] = useState<QuizListItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { user } = useAuth();
+
+    // Add type guard for admin check
+    const isAdmin = (user: User | null): user is User & { isAdmin: true } => {
+        return Boolean(user?.isAdmin);
+    };
 
     const loadQuizzes = async () => {
         try {
@@ -89,7 +96,7 @@ export const QuizList: React.FC<QuizListProps> = ({ onEditQuiz }) => {
                     >
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="text-lg font-semibold">{quiz.title}</h3>
-                            {user && quiz.creatorName === user.username && (
+                            {isAdmin(user) && (
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => handleEditQuiz(quiz.id)}

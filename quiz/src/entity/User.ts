@@ -22,4 +22,7 @@ export class User {
 
     @OneToMany(() => Participation, participation => participation.user)
     participations!: Participation[];
+
+    @Column({ default: false })
+    isAdmin!: boolean;
 }

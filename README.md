@@ -6,7 +6,7 @@ A scalable real-time quiz application that supports multiple concurrent quiz ses
 
 1. Prerequisites:
    - Node.js (v16+)
-   - Docker (for Redis)
+   - Docker (for Redis and Gateway)
 
 2. Install dependencies:
 ```bash
@@ -15,7 +15,8 @@ npm install
 
 2. Start development infrastructure:
 ```bash
-npm run dev:infra:down && npm run dev:infra:up
+npm run dev:infra:up
+npm run dev:infra:down (to stop)
 ```
 
 3. Start development servers:
